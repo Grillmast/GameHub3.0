@@ -1,200 +1,61 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import InfiniteScroll from "react-infinite-scroll-component";
+import * as React from 'react';
+import GameCard from './GameCard';
+import Button from '@mui/material/Button';
+import { alpha, styled, useTheme } from '@mui/material/styles';
 
-function Home() {
-  const [cards, setCards] = React.useState([]);
-  const [hasMore, setHasMore] = React.useState(true);
-  const [page, setPage] = React.useState(1);
+const genres = [
+  { name: 'Action', value: 'action' },
+  { name: 'Adventure', value: 'adventure' },
+  { name: 'Indie', value: 'indie' },
+    { name: 'RPG', value: 'rpg' },
+    { name: 'Simulation', value: 'simulation' },
+    { name: 'Sports', value: 'sports' },
+    { name: 'Strategy', value: 'strategy' },
+    { name: 'Casual', value: 'casual' },
+    { name: 'Arcade', value: 'arcade' },
+    { name: 'Puzzle', value: 'puzzle' },
+    { name: 'Racing', value: 'racing' },
+    { name: 'Shooter', value: 'shooter' },
+    { name: 'Fighting', value: 'fighting' },
+    { name: 'Platformer', value: 'platformer' },
+    { name: 'Massively Multiplayer', value: 'massively-multiplayer' },
+    { name: 'Family', value: 'family' },
+    { name: 'Board Games', value: 'board-games' },
+    { name: 'Educational', value: 'educational' },
+    { name: 'Card', value: 'card' },
+];
 
-  const loadCards = async () => {
-    try {
-      const loginResponse = await fetch("https://rawg.io/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password: "DUBootcamp23"
-        }),
-      });
+const GenreButton = styled(Button)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+}));
 
-      const { key } = await loginResponse.json();
-
-      const API_URL = `https://api.rawg.io/api/games`;
-
-      const response = await fetch(API_URL, {
-        headers: {
-          "Content-Type": "application/json",
-          token: `Token ${key}`,
-        },
-      });
-
-      const data = await response.json();
-
-      const fetchedCards = data.results.map((game) => ({
-        id: game.id,
-        name: game.name,
-        image: game.background_image_additional,
-        rating: game.rating,
-        released: game.released,
-        description: game.description,
-      }));
-
-      if (fetchedCards.length === 0) {
-        setHasMore(false);
-        return;
-      }
-
-      setCards((prevCards) => [...prevCards, ...fetchedCards]);
-      setPage((prevPage) => prevPage + 1);
-    } catch (error) {
-      console.error("Error loading cards:", error);
-    }
-  };
-
-  React.useEffect(() => {
-   loadCards();
-}, []);
-
-  const theme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-  });
+const Home = () => {
+  const theme = useTheme();
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <main>
-        <Box sx={{ display: "flex", bgcolor: "black" }}>
-          {/* Content */}
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Box
-              sx={{
-                bgcolor: "black",
-                pt: 8,
-                pb: 6,
-              }}
-            >
-              <Container maxWidth="sm">
-                <Typography
-                  component="h1"
-                  variant="h2"
-                  align="center"
-                  color="text.primary"
-                  gutterBottom
-                >
-                  New and Upcoming Games
-                </Typography>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  color="text.secondary"
-                  paragraph
-                >
-                  This is a demo of a game hub. It will display new and upcoming
-                  games.
-                </Typography>
-                <Stack
-                  sx={{ pt: 4 }}
-                  direction="row"
-                  spacing={2}
-                  justifyContent="center"
-                >
-                  <Button variant="contained">Should be a dropdown?</Button>
-                  <Button variant="outlined">Should be a dropdown?</Button>
-                </Stack>
-              </Container>
-            </Box>
-
-            <Container
-              sx={{
-                py: 8,
-                backgroundColor: "black",
-                padding: 0,
-                display: "flex",
-                justifyContent: "center",
-              }}
-              maxWidth="md"
-            >
-              <InfiniteScroll
-                dataLength={cards.length}
-                next={loadCards} // Pass the loadCards function as the next prop
-                hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
-                endMessage={<h4>No more cards to load</h4>}
-              >
-                <Grid container spacing={4} sx={{ bgcolor: "black" }}>
-                  {cards.map((card) => (
-                    <Grid item key={card.id} xs={12} sm={6} md={3}>
-                      <Card
-                        sx={{
-                          height: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <CardMedia
-                          component="div"
-                          sx={{
-                            // 16:9
-                            pt: "56.25%",
-                            backgroundImage: `url(${card.image})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                          }}
-                        />
-                        <CardContent sx={{ flexGrow: 1 }}>
-                          <Typography gutterBottom variant="h5" component="h2">
-                            {card.name}
-                          </Typography>
-                          <Typography>{card.description}</Typography>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </InfiniteScroll>
-            </Container>
-          </Box>
-        </Box>
-
-        {/* Footer */}
-        <Box sx={{ bgcolor: "black", p: 6 }} component="footer">
-          <Typography variant="h6" align="center" gutterBottom>
-            Footer
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            color="text.secondary"
-            component="p"
-          >
-            Whatever Erich wants to say lol
-          </Typography>
-          {/* Copyright component */}
-        </Box>
-        {/* End footer */}
-      </main>
-    </ThemeProvider>
+    <div>
+      {genres.map((genre) => (
+        <GenreButton
+          key={genre.value}
+          component="a"
+          href={`/${genre.value}`}
+          sx={{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.text.primary,
+            '&:hover': {
+              backgroundColor: alpha(theme.palette.common.white, 0.25),
+            },
+          }}
+        >
+          {genre.name}
+        </GenreButton>
+      ))}
+      <GameCard />
+    </div>
   );
-}
+};
 
 export default Home;
