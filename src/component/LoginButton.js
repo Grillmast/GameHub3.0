@@ -5,8 +5,9 @@ const LoginButton = () => {
 
   return (
     <>
-      <Button color="inherit" onClick="">
+      <Button color="inherit">
         Login
+        {/* TODO: onClick='' */}
       </Button>
     </>
   );
