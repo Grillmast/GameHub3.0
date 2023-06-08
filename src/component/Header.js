@@ -1,4 +1,5 @@
 import React from "react";
+// import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
+import SignUp from "./SignUp";
 import { alpha, styled } from '@mui/material/styles';
 
 // import Profile from '../profile';
@@ -107,6 +109,7 @@ export default function Header() {
 							justifyContent: 'center',
 						}}
 					>
+						<SignUp />
 						<LoginButton />
 						<LogoutButton />
 						{/* <Profile /> */}
