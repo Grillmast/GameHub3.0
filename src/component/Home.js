@@ -26,7 +26,7 @@ const genres = [
 ];
 
 const GenreButton = styled(Button)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
+  borderRadius: 20,
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
@@ -34,14 +34,19 @@ const GenreButton = styled(Button)(({ theme }) => ({
 
 const Home = () => {
   const theme = useTheme();
+  const [selectedGenre, setSelectedGenre] = React.useState('');
+
+  const handleGenreSelection = (genreValue) => {
+    setSelectedGenre(genreValue);
+  };
 
   return (
     <div>
       {genres.map((genre) => (
         <GenreButton
           key={genre.value}
-          component="a"
-          href={`/${genre.value}`}
+          component="button"
+          onClick={() => handleGenreSelection(genre.value)}
           sx={{
             backgroundColor: theme.palette.background.default,
             color: theme.palette.text.primary,
@@ -53,7 +58,8 @@ const Home = () => {
           {genre.name}
         </GenreButton>
       ))}
-      <GameCard />
+
+      {selectedGenre && <GameCard genre={selectedGenre} />}
     </div>
   );
 };
