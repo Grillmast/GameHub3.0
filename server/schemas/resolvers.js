@@ -1,89 +1,83 @@
-const { User, Game, GameDetails, Genre, Platform, Screenshot, Tag, Trailer } = require('../models');
 const axios = require('axios');
+const { User, Game, GameDetails, Genre, Platform, Screenshot, Tag, Trailer } = require('../models');
+
+// Function to authenticate and obtain the token
+const login = async () => {
+  try {
+    const response = await axios.post('https://api.rawg.io/api/auth/login', {
+      // Include your login credentials, such as username and password
+      email: 'c_medlin19@yahoo.com',
+      password: 'CombatAces1929!',
+    });
+    console.log(response.data);
+
+    const token = response.data.key;
+
+    // Return the obtained token with "Bearer" prefix
+    return `Bearer ${token}`;
+  } catch (error) {
+    console.error('Error occurred during login:', error);
+    throw new Error('Failed to authenticate');
+  }
+};
+
+
 
 const resolvers = {
   Query: {
     games: async (_, { genre, platform, tag, sortBy }) => {
       let filters = {};
-      
+  
       if (genre) {
         filters.genre = genre;
       }
-      
+  
       if (platform) {
         filters.platforms = platform;
       }
-
-      if (platform) {
+  
+      if (tag) {
         filters.tags = tag;
       }
-
-      const games = await Game.find(filters).sort(sortBy);
-      return games;
+  
+      try {
+        // Authenticate and obtain the token
+        const token = await login();
+  
+        // Fetch games from the Rawg API
+        const response = await axios.get('https://api.rawg.io/api/games?key=e4e4849395b34db48332abd6feedc78e', {
+            params: {
+            genres: filters.genre,
+            platforms: filters.platforms,
+            tags: filters.tags,
+            ordering: sortBy,
+          },
+          headers: {
+            'Content-Type': 'application/json',
+            'User-Agent': 'YourAppName/1.0',
+            'Authorization': token, // Use the updated token format with "Bearer" prefix
+          },          
+        });
+  
+        const games = response.data.results;
+  
+        // Return the fetched games
+        return games;
+      } catch (error) {
+        console.error('Error occurred while fetching games:', error);
+        throw new Error('Failed to fetch games');
+      }
     },
-    gameDetails: async (_, { gameId }) => {
-      const gameDetails = await GameDetails.findById(game_pk);
-      return gameDetails;
-    },
-    gamesByParams: async (_, { ordering, page, pageSize }) => {
-      // Implement your gamesByParams resolver logic here
-      // Example: Fetch games based on parameters and return them
-      const gamesByParams = await Game.find({}).sort(ordering).skip((page - 1) * pageSize).limit(pageSize);
-      return gamesByParams;
-    },
-  },
-  Mutation: {
-    rateGame: async (_, { gameId, rating }, context) => {
-      const userId = context.userId;
-
-      // Find the user and game
-      const user = await User.findById(userId);
-      const game = await Game.findById(gameId);
-
-      // Update the user's ratedGames with the new rating
-      user.ratedGames.push({ game: gameId, rating });
-      await user.save();
-
-      // Update the game's rating and save it
-      game.rating = calculateAverageRating(game);
-      await game.save();
-
-      // Return the updated game
-      return game;
-    },
-    // Implement other mutation resolvers based on your requirements
-  },
-  User: {
-    savedGames: async (user) => {
-      const savedGames = await Game.find({ _id: { $in: user.savedGames } });
-      return savedGames;
-    },
-    // Implement other resolver functions for the fields of the User type
-  },
-  Game: {
-    screenshots: async (game) => {
-      const screenshots = await Screenshot.find({ game: game._id });
-      return screenshots;
-    },
-    trailers: async (game) => {
-      const trailers = await Trailer.find({ game: game._id });
-      return trailers;
-    },
-    genres: async (game) => {
-        const genres = await Genre.find({ _id: { $in: game.genres } });
-        return genres;
-    },
-    platforms: async (game) => {
-        const platforms = await Platform.find({ _id: { $in: game.platforms } });
-        return platforms;
-    },
-    tags: async (game) => {
-        const tags = await Tag.find({ _id: { $in: game.tags } });
-        return tags;
-    },
-    // Implement other resolver functions for the fields of the Game type
-  },
-  // Implement resolver functions for other types and their fields
+    // ...
+  }
 };
+
+login()
+  .then(() => {
+    console.log('Successfully authenticated');
+  })
+  .catch((error) => {
+    console.error('Error occurred during authentication:', error);
+  });
 
 module.exports = resolvers;

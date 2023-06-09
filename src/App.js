@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { StytchProvider } from '@stytch/react';
 import { StytchHeadlessClient } from '@stytch/vanilla-js/headless';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import './App.css';
 import Header from './component/Header';
 import Home from './component/Home';
@@ -15,6 +16,12 @@ const darkTheme = createTheme({
 	},
 });
 
+const client = new ApolloClient({
+	uri: 'http://localhost:3001/graphql',
+	cache: new InMemoryCache(),
+  });
+  
+
 function App() {
   const stytchClient = new StytchHeadlessClient(process.env.REACT_APP_STYTCH_PUBLIC_TOKEN)
 
@@ -24,6 +31,7 @@ function App() {
 
   return (
 		<StytchProvider stytch={stytchClient}>
+			<ApolloProvider client={client}>
 			<ThemeProvider theme={darkTheme}>
 				<CssBaseline />
 				<div className='App'>
@@ -39,6 +47,7 @@ function App() {
 					</Router>
 				</div>
 			</ThemeProvider>
+			</ApolloProvider>
 		</StytchProvider>
 	);
 }

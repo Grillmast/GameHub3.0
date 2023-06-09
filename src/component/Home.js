@@ -1,28 +1,28 @@
-import * as React from 'react';
-import GameCard from './GameCard';
+import React, { useState } from 'react';
+import GameCardContainer from '../containers/GameCardContainer';
 import Button from '@mui/material/Button';
 import { alpha, styled, useTheme } from '@mui/material/styles';
 
 const genres = [
   { name: 'Action', value: 'action' },
   { name: 'Adventure', value: 'adventure' },
+  { name: 'Arcade', value: 'arcade' },
+  { name: 'Board Games', value: 'board-games' },
+  { name: 'Card', value: 'card' },
+  { name: 'Educational', value: 'educational' },
+  { name: 'Family', value: 'family' },
+  { name: 'Fighting', value: 'fighting' },
   { name: 'Indie', value: 'indie' },
-    { name: 'RPG', value: 'rpg' },
-    { name: 'Simulation', value: 'simulation' },
-    { name: 'Sports', value: 'sports' },
-    { name: 'Strategy', value: 'strategy' },
-    { name: 'Casual', value: 'casual' },
-    { name: 'Arcade', value: 'arcade' },
-    { name: 'Puzzle', value: 'puzzle' },
-    { name: 'Racing', value: 'racing' },
-    { name: 'Shooter', value: 'shooter' },
-    { name: 'Fighting', value: 'fighting' },
-    { name: 'Platformer', value: 'platformer' },
-    { name: 'Massively Multiplayer', value: 'massively-multiplayer' },
-    { name: 'Family', value: 'family' },
-    { name: 'Board Games', value: 'board-games' },
-    { name: 'Educational', value: 'educational' },
-    { name: 'Card', value: 'card' },
+  { name: 'Massively Multiplayer', value: 'massively-multiplayer' },
+  { name: 'Puzzle', value: 'puzzle' },
+  { name: 'Racing', value: 'racing' },
+  { name: 'RPG', value: 'role-playing-games-rpg' },
+  { name: 'Shooter', value: 'shooter' },
+  { name: 'Simulation', value: 'simulation' },
+  { name: 'Sports', value: 'sports' },
+  { name: 'Strategy', value: 'strategy' },
+  { name: 'Platformer', value: 'platformer'},
+  { name: 'Casual', value: 'casual' },
 ];
 
 const GenreButton = styled(Button)(({ theme }) => ({
@@ -34,7 +34,7 @@ const GenreButton = styled(Button)(({ theme }) => ({
 
 const Home = () => {
   const theme = useTheme();
-  const [selectedGenre, setSelectedGenre] = React.useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
 
   const handleGenreSelection = (genreValue) => {
     setSelectedGenre(genreValue);
@@ -59,7 +59,7 @@ const Home = () => {
         </GenreButton>
       ))}
 
-      {selectedGenre && <GameCard genre={selectedGenre} />}
+      {selectedGenre && <GameCardContainer genre={selectedGenre} />}
     </div>
   );
 };
