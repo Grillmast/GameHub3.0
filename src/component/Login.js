@@ -1,5 +1,6 @@
 import { useStytch } from '@stytch/react';
 import React, { useState } from 'react';
+import Header from './Header';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ export default function Login() {
 	const resetPasswordByEmail = () => {
 		stytchClient.passwords.resetByEmailStart({
 			email: "erich.ziegler11@gmail.com",
-		});
+		}); // TODO: Change to user's email
 	};
 
 	const login = () => {
@@ -31,6 +32,7 @@ export default function Login() {
 
 	return (
 		<>
+        <Header />
 			<input
 				placeholder='Email'
 				onChange={(e) => {

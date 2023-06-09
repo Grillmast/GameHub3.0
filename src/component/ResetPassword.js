@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useStytch } from '@stytch/react';
+import Header from './Header';
 
 export default function ResetPassword() {
 	const [newPassword, setNewPassword] = useState('');
@@ -16,6 +17,7 @@ export default function ResetPassword() {
     }
 	return (
 		<div>
+            <Header />
 			<input
 				placeholder='New Password'
 				onChange={(e) => {
