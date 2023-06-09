@@ -1,19 +1,22 @@
-import React from "react";
-// import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import InputBase from '@mui/material/InputBase';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
-import SignUp from "./SignUp";
+import Logout from './Logout';
 import { alpha, styled } from '@mui/material/styles';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-// import Profile from '../profile';
+const links = [
+	{ path: '/', text: 'Home' },
+	{ path: '/login', text: 'Login' },
+	{ path: '/signup', text: 'Sign Up' },
+	{ path: '/profile', text: 'Profile' },
+];
 
 const Search = styled('div')(({ theme }) => ({
 	position: 'relative',
@@ -58,7 +61,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
-
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position='static'>
@@ -94,12 +96,12 @@ export default function Header() {
 						<StyledInputBase
 							placeholder='Search for a game...'
 							inputProps={{ 'aria-label': 'search' }}
-                            sx={{
-                                width: 250,
-                                '& .MuiInputBase-input': {
-                                    width: 200,
-                                }
-                            }}
+							sx={{
+								width: 250,
+								'& .MuiInputBase-input': {
+									width: 200,
+								},
+							}}
 						/>
 					</Search>
 					<div
@@ -109,10 +111,16 @@ export default function Header() {
 							justifyContent: 'center',
 						}}
 					>
-						<SignUp />
-						<LoginButton />
-						<LogoutButton />
-						{/* <Profile /> */}
+						<ul>
+							{links.map((link) => {
+								return (
+									<li key={link.text}>
+										<NavLink to={link.path}>{link.text}</NavLink>
+									</li>
+								);
+							})}
+						</ul>
+						<Logout />
 					</div>
 				</Toolbar>
 			</AppBar>

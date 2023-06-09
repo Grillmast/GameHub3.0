@@ -1,6 +1,7 @@
 import * as React from 'react';
 import GameCard from './GameCard';
 import Button from '@mui/material/Button';
+import Header from './Header';
 import { alpha, styled, useTheme } from '@mui/material/styles';
 
 const genres = [
@@ -42,6 +43,7 @@ const Home = () => {
 
   return (
     <div>
+      <Header />
       {genres.map((genre) => (
         <GenreButton
           key={genre.value}

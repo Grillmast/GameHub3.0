@@ -1,5 +1,6 @@
 import { useStytch } from '@stytch/react';
 import React, { useState } from 'react';
+import Header from './Header';
 
 export default function SignUp() {
 	const [email, setEmail] = useState('');
@@ -27,6 +28,8 @@ export default function SignUp() {
 	};
 
 	return (
+        <>
+        <Header />
 		<div>
 			<input
 				placeholder='Email'
@@ -43,5 +46,6 @@ export default function SignUp() {
 
 			<button onClick={signUp}>Sign Up</button>
 		</div>
+        </>
 	);
 }
