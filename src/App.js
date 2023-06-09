@@ -2,12 +2,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { StytchProvider } from '@stytch/react';
 import { StytchHeadlessClient } from '@stytch/vanilla-js/headless';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Header from './component/Header';
 import Home from './component/Home';
 import Login from './component/Login';
 import ResetPassword from './component/ResetPassword';
+import Profile from './component/Profile';
+import SignUp from './component/SignUp';
+import NotMatch from './component/NotMatch';
 
 const darkTheme = createTheme({
 	palette: {
@@ -27,13 +29,14 @@ function App() {
 			<ThemeProvider theme={darkTheme}>
 				<CssBaseline />
 				<div className='App'>
-					<Header />
 					<Router>
-						<Link to='/auth'> Login</Link>
 						<Routes>
 							<Route path='/' element={<Home />} />
-							<Route path='/auth' element={<Login />} />
+							<Route path='/login' element={<Login />} />
+              <Route path='/signup' element={<SignUp />} />
+              <Route path='/profile' element={<Profile />} />
 							<Route path='/resetpassword/*' element={<ResetPassword />} />
+              <Route path='*' element={<NotMatch />} />
 						</Routes>
 						<button onClick={logout}>Logout</button>
 					</Router>
