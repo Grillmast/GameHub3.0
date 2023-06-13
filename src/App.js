@@ -3,7 +3,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { StytchProvider } from '@stytch/react';
 import { StytchHeadlessClient } from '@stytch/vanilla-js/headless';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import './App.css';
 import Home from './component/Home';
@@ -28,9 +27,6 @@ const client = new ApolloClient({
 function App() {
   const stytchClient = new StytchHeadlessClient(process.env.REACT_APP_STYTCH_PUBLIC_TOKEN)
 
-  const logout = () => {
-    stytchClient.session.revoke();
-  };
 
   return (
 		<StytchProvider stytch={stytchClient}>
@@ -47,7 +43,7 @@ function App() {
 							<Route path='/resetpassword/*' element={<ResetPassword />} />
               <Route path='*' element={<NotMatch />} />
 						</Routes>
-						<button onClick={logout}>Logout</button>
+						{/* <button onClick={logout}>Logout</button> */}
 					</Router>
 				</div>
 			</ThemeProvider>

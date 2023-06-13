@@ -19,7 +19,7 @@ export default function SignUp() {
 				console.log('Error:', err);
 			});
 
-            // User is logged in after sign up, session is created
+		// User is logged in after sign up, session is created
 		stytchClient.passwords.create({
 			email,
 			password,
@@ -28,24 +28,24 @@ export default function SignUp() {
 	};
 
 	return (
-        <>
-        <Header />
-		<div>
-			<input
-				placeholder='Email'
-				onChange={(e) => {
-					setEmail(e.target.value);
-				}}
-			/>
-			<input
-				placeholder='Password'
-				onChange={(e) => {
-					setPassword(e.target.value);
-				}}
-			/>
+		<>
+			<Header />
+			<div>
+				<input
+					placeholder='Email'
+					onChange={(e) => {
+						setEmail(e.target.value);
+					}}
+				/>
+				<input
+					placeholder='Password'
+					onChange={(e) => {
+						setPassword(e.target.value);
+					}}
+				/>
 
-			<button onClick={signUp}>Sign Up</button>
-		</div>
-        </>
+				<button onClick={signUp}>Sign Up</button>
+			</div>
+		</>
 	);
 }
