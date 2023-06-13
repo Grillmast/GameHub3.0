@@ -121,6 +121,7 @@ export default function Header() {
 							})}
 						</ul>
 						<Logout />
+						
 					</div>
 				</Toolbar>
 			</AppBar>

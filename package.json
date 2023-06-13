@@ -2,6 +2,7 @@
 	"name": "gamehub3.0",
 	"version": "0.1.0",
 	"private": true,
+	"proxy": "http://localhost:3001",
 	"dependencies": {
 		"@apollo/client": "^3.7.15",
 		"@emotion/react": "^11.11.1",
@@ -38,9 +39,11 @@
 		"redux-thunk": "^2.3.0",
 		"reselect": "^4.0.0",
 		"styled-components": "^5.3.11",
+		"stytch": "^7.1.1",
 		"yup": "^0.29.1"
 	},
 	"scripts": {
+		"start2": "concurrently \"node ./server.js\" \"npm run client\"",
 		"start": "concurrently \"npm run server\" \"npm run client\"",
 		"client": "react-scripts start",
 		"server": "nodemon server/server.js",
